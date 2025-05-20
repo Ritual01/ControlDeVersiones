@@ -1,0 +1,105 @@
+-- Tabla AUTOR
+CREATE TABLE AUTOR (
+    Codigo VARCHAR(10) PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL
+);
+
+-- Tabla LIBRO
+CREATE TABLE LIBRO (
+    Codigo VARCHAR(10) PRIMARY KEY,
+    Titulo VARCHAR(255) NOT NULL,
+    ISBN VARCHAR(20) UNIQUE,
+    Editorial VARCHAR(100),
+    Paginas INT
+);
+
+-- Tabla de cruce AUTOR_LIBRO (para la relación N:M "Escribe")
+CREATE TABLE AUTOR_LIBRO (
+    Autor_Codigo VARCHAR(10),
+    Libro_Codigo VARCHAR(10),
+    PRIMARY KEY (Autor_Codigo, Libro_Codigo),
+    FOREIGN KEY (Autor_Codigo) REFERENCES AUTOR(Codigo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Libro_Codigo) REFERENCES LIBRO(Codigo) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla EJEMPLAR
+CREATE TABLE EJEMPLAR (
+    Codigo VARCHAR(10) PRIMARY KEY,
+    Localizacion VARCHAR(100),
+    Libro_Codigo VARCHAR(10) NOT NULL,
+    FOREIGN KEY (Libro_Codigo) REFERENCES LIBRO(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE -- Un ejemplar debe pertenecer a un libro existente
+);
+
+-- Tabla USUARIO
+CREATE TABLE USUARIO (
+    Codigo VARCHAR(10) PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Telefono VARCHAR(20),
+    Direccion VARCHAR(255)
+);
+
+-- Tabla PRESTAMO (para la relación N:M "Saca")
+CREATE TABLE PRESTAMO (
+    Usuario_Codigo VARCHAR(10),
+    Ejemplar_Codigo VARCHAR(10),
+    FechaPres DATE NOT NULL,
+    FechaDev DATE, -- Puede ser NULL si no se ha devuelto
+    PRIMARY KEY (Usuario_Codigo, Ejemplar_Codigo, FechaPres),
+    FOREIGN KEY (Usuario_Codigo) REFERENCES USUARIO(Codigo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Ejemplar_Codigo) REFERENCES EJEMPLAR(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE -- No se puede eliminar un ejemplar si está prestado
+);
+
+-- INSERCIÓN DE DATOS DE EJEMPLO --
+
+-- Autores
+INSERT INTO AUTOR (Codigo, Nombre) VALUES
+('AUT001', 'Gabriel García Márquez'),
+('AUT002', 'Isabel Allende'),
+('AUT003', 'Mario Vargas Llosa'),
+('AUT004', 'Julio Cortázar'),
+('AUT005', 'Jorge Luis Borges');
+
+-- Libros
+INSERT INTO LIBRO (Codigo, Titulo, ISBN, Editorial, Paginas) VALUES
+('LIB001', 'Cien años de soledad', '978-0307350446', 'Sudamericana', 417),
+('LIB002', 'La casa de los espíritus', '978-0525243237', 'Plaza & Janés', 433),
+('LIB003', 'La ciudad y los perros', '978-8420471830', 'Alfaguara', 384),
+('LIB004', 'Rayuela', '978-8420420708', 'Alfaguara', 664),
+('LIB005', 'Ficciones', '978-0307950927', 'Alianza Editorial', 224),
+('LIB006', 'El amor en los tiempos del cólera', '978-0307387091', 'Diana', 368);
+
+
+-- Relación Autor-Libro
+INSERT INTO AUTOR_LIBRO (Autor_Codigo, Libro_Codigo) VALUES
+('AUT001', 'LIB001'),
+('AUT001', 'LIB006'),
+('AUT002', 'LIB002'),
+('AUT003', 'LIB003'),
+('AUT004', 'LIB004'),
+('AUT005', 'LIB005');
+
+-- Ejemplares
+INSERT INTO EJEMPLAR (Codigo, Localizacion, Libro_Codigo) VALUES
+('EJE001', 'Estantería A1', 'LIB001'),
+('EJE002', 'Estantería A1', 'LIB001'),
+('EJE003', 'Estantería B2', 'LIB002'),
+('EJE004', 'Estantería C3', 'LIB003'),
+('EJE005', 'Estantería D4', 'LIB004'),
+('EJE006', 'Estantería E5', 'LIB005'),
+('EJE007', 'Estantería A1', 'LIB006');
+
+-- Usuarios
+INSERT INTO USUARIO (Codigo, Nombre, Telefono, Direccion) VALUES
+('USR001', 'Ana Pérez', '555-1234', 'Calle Falsa 123'),
+('USR002', 'Luis Gómez', '555-5678', 'Avenida Siempre Viva 742'),
+('USR003', 'Sofía Castro', '555-8765', 'Plaza Mayor 1'),
+('USR004', 'Carlos Díaz', '555-4321', 'Pasaje Los Pinos 45'),
+('USR005', 'Elena Torres', '555-9876', 'Urbanización El Sol, Mz A Lote 3');
+
+-- Préstamos
+INSERT INTO PRESTAMO (Usuario_Codigo, Ejemplar_Codigo, FechaPres, FechaDev) VALUES
+('USR001', 'EJE001', '2024-01-10', '2024-01-24'),
+('USR002', 'EJE003', '2024-01-15', NULL), -- Aún no devuelto
+('USR003', 'EJE004', '2024-02-01', '2024-02-15'),
+('USR001', 'EJE005', '2024-02-20', NULL), -- Aún no devuelto
+('USR004', 'EJE002', '2024-03-05', '2024-03-19');
