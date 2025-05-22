@@ -1,3 +1,7 @@
+-- Crear la base
+CREATE DATABASE libreria; 
+USE libreria;
+
 -- Tabla AUTOR
 CREATE TABLE AUTOR (
     Codigo VARCHAR(10) PRIMARY KEY,
