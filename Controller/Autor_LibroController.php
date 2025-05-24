@@ -1,5 +1,4 @@
 <?php
-// filepath: c:\Users\marce\Desktop\Proyectos\guthib\ControlDeVersiones\Controller\Autor_LibroController.php
 
 require_once __DIR__ . '/../Model/Autor_LibroModel.php';
 
