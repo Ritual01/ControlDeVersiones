@@ -1,5 +1,4 @@
 <?php
-<?php
 
 class LibroModel {
     private $conn;
@@ -31,6 +30,9 @@ class LibroModel {
     }
 
     public function delete($codigo) {
+        // Elimina ejemplares relacionados primero
+        $this->conn->query("DELETE FROM EJEMPLAR WHERE Libro_Codigo='$codigo'");
+        // Luego elimina el libro
         $sql = "DELETE FROM LIBRO WHERE Codigo='$codigo'";
         return $this->conn->query($sql);
     }

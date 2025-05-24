@@ -1,5 +1,4 @@
 <?php
-<?php
 require_once __DIR__ . '/../../Model/LibroModel.php';
 $conn = new mysqli("localhost", "root", "", "libreria");
 $model = new LibroModel($conn);
