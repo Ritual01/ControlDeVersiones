@@ -1,3 +1,6 @@
+-- Eliminar la base de datos si existe
+DROP DATABASE IF EXISTS libreria;
+
 -- Crear la base
 CREATE DATABASE libreria; 
 USE libreria;
@@ -31,7 +34,7 @@ CREATE TABLE EJEMPLAR (
     Codigo VARCHAR(10) PRIMARY KEY,
     Localizacion VARCHAR(100),
     Libro_Codigo VARCHAR(10) NOT NULL,
-    FOREIGN KEY (Libro_Codigo) REFERENCES LIBRO(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE -- Un ejemplar debe pertenecer a un libro existente
+    FOREIGN KEY (Libro_Codigo) REFERENCES LIBRO(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- Tabla USUARIO
@@ -44,13 +47,14 @@ CREATE TABLE USUARIO (
 
 -- Tabla PRESTAMO (para la relación N:M "Saca")
 CREATE TABLE PRESTAMO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     Usuario_Codigo VARCHAR(10),
     Ejemplar_Codigo VARCHAR(10),
     FechaPres DATE NOT NULL,
     FechaDev DATE, -- Puede ser NULL si no se ha devuelto
-    PRIMARY KEY (Usuario_Codigo, Ejemplar_Codigo, FechaPres),
+    Estado VARCHAR(10) NOT NULL DEFAULT 'Activo',
     FOREIGN KEY (Usuario_Codigo) REFERENCES USUARIO(Codigo) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (Ejemplar_Codigo) REFERENCES EJEMPLAR(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE -- No se puede eliminar un ejemplar si está prestado
+    FOREIGN KEY (Ejemplar_Codigo) REFERENCES EJEMPLAR(Codigo) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- INSERCIÓN DE DATOS DE EJEMPLO --
@@ -71,7 +75,6 @@ INSERT INTO LIBRO (Codigo, Titulo, ISBN, Editorial, Paginas) VALUES
 ('LIB004', 'Rayuela', '978-8420420708', 'Alfaguara', 664),
 ('LIB005', 'Ficciones', '978-0307950927', 'Alianza Editorial', 224),
 ('LIB006', 'El amor en los tiempos del cólera', '978-0307387091', 'Diana', 368);
-
 
 -- Relación Autor-Libro
 INSERT INTO AUTOR_LIBRO (Autor_Codigo, Libro_Codigo) VALUES
@@ -101,9 +104,9 @@ INSERT INTO USUARIO (Codigo, Nombre, Telefono, Direccion) VALUES
 ('USR005', 'Elena Torres', '555-9876', 'Urbanización El Sol, Mz A Lote 3');
 
 -- Préstamos
-INSERT INTO PRESTAMO (Usuario_Codigo, Ejemplar_Codigo, FechaPres, FechaDev) VALUES
-('USR001', 'EJE001', '2024-01-10', '2024-01-24'),
-('USR002', 'EJE003', '2024-01-15', NULL), -- Aún no devuelto
-('USR003', 'EJE004', '2024-02-01', '2024-02-15'),
-('USR001', 'EJE005', '2024-02-20', NULL), -- Aún no devuelto
-('USR004', 'EJE002', '2024-03-05', '2024-03-19');
+INSERT INTO PRESTAMO (Usuario_Codigo, Ejemplar_Codigo, FechaPres, FechaDev, Estado) VALUES
+('USR001', 'EJE001', '2024-01-10', '2024-01-24', 'Devuelto'),
+('USR002', 'EJE003', '2024-01-15', NULL, 'Activo'),
+('USR003', 'EJE004', '2024-02-01', '2024-02-15', 'Devuelto'),
+('USR001', 'EJE005', '2024-02-20', NULL, 'Activo'),
+('USR004', 'EJE002', '2024-03-05', '2024-03-19', 'Devuelto');

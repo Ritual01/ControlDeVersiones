@@ -3,10 +3,10 @@
 
 // Si se pasa un préstamo para editar, se llenan los campos, si no, quedan vacíos para crear
 $id = isset($prestamo['id']) ? $prestamo['id'] : '';
-$codigo_usuario = isset($prestamo['codigo_usuario']) ? $prestamo['codigo_usuario'] : '';
-$codigo_ejemplar = isset($prestamo['codigo_ejemplar']) ? $prestamo['codigo_ejemplar'] : '';
-$fecha_prestamo = isset($prestamo['fecha_prestamo']) ? $prestamo['fecha_prestamo'] : '';
-$fecha_devolucion = isset($prestamo['fecha_devolucion']) ? $prestamo['fecha_devolucion'] : '';
+$Usuario_Codigo = isset($prestamo['Usuario_Codigo']) ? $prestamo['Usuario_Codigo'] : '';
+$Ejemplar_Codigo = isset($prestamo['Ejemplar_Codigo']) ? $prestamo['Ejemplar_Codigo'] : '';
+$FechaPres = isset($prestamo['FechaPres']) ? $prestamo['FechaPres'] : '';
+$FechaDev = isset($prestamo['FechaDev']) ? $prestamo['FechaDev'] : '';
 $estado = isset($prestamo['estado']) ? $prestamo['estado'] : 'true'; // Por defecto activo
 $editando = !empty($id);
 ?>
@@ -46,17 +46,17 @@ $editando = !empty($id);
             <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
         <?php endif; ?>
 
-        <label for="codigo_usuario">Código de Usuario:</label>
-        <input type="text" id="codigo_usuario" name="codigo_usuario" value="<?= htmlspecialchars($codigo_usuario) ?>" required>
+        <label for="Usuario_Codigo">Código de Usuario:</label>
+        <input type="text" id="Usuario_Codigo" name="Usuario_Codigo" value="<?= htmlspecialchars($Usuario_Codigo) ?>" required>
 
-        <label for="codigo_ejemplar">Código de Ejemplar:</label>
-        <input type="text" id="codigo_ejemplar" name="codigo_ejemplar" value="<?= htmlspecialchars($codigo_ejemplar) ?>" required>
+        <label for="Ejemplar_Codigo">Código de Ejemplar:</label>
+        <input type="text" id="Ejemplar_Codigo" name="Ejemplar_Codigo" value="<?= htmlspecialchars($Ejemplar_Codigo) ?>" required>
 
-        <label for="fecha_prestamo">Fecha de Préstamo:</label>
-        <input type="date" id="fecha_prestamo" name="fecha_prestamo" value="<?= htmlspecialchars($fecha_prestamo) ?>" required>
+        <label for="FechaPres">Fecha de Préstamo:</label>
+        <input type="date" id="FechaPres" name="FechaPres" value="<?= htmlspecialchars($FechaPres) ?>" required>
 
-        <label for="fecha_devolucion">Fecha de Devolución:</label>
-        <input type="date" id="fecha_devolucion" name="fecha_devolucion" value="<?= htmlspecialchars($fecha_devolucion) ?>" required>
+        <label for="FechaDev">Fecha de Devolución:</label>
+        <input type="date" id="FechaDev" name="FechaDev" value="<?= htmlspecialchars($FechaDev) ?>" required>
 
         <label for="estado">Estado:</label>
         <select id="estado" name="estado" required>

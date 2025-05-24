@@ -8,8 +8,8 @@ $prestamos = $controller->getPrestamos();
 $activos = [];
 $devueltos = [];
 foreach ($prestamos as $prestamo) {
-    // Si estado es true, activo; si es false, devuelto
-    if ($prestamo['estado'] == 'true' || $prestamo['estado'] == 1) {
+    // Si Estado es 'Activo', es préstamo activo; si es 'Devuelto', es devuelto
+    if ($prestamo['Estado'] === 'Activo') {
         $activos[] = $prestamo;
     } else {
         $devueltos[] = $prestamo;
@@ -29,22 +29,27 @@ foreach ($prestamos as $prestamo) {
         .lista { width: 48%; }
         h2 { text-align: center; color: #2980b9; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        th, td { 
+            padding: 18px 14px;
+            border-bottom: 1.5em solid transparent;
+            text-align: left;
+            vertical-align: middle;
+        }
         th { background: #2980b9; color: #fff; }
         tr:hover { background: #f1f1f1; }
-        .btn {
-            padding: 6px 14px;
+        .icon-btn {
+            background: none;
             border: none;
-            border-radius: 4px;
-            color: #fff;
             cursor: pointer;
-            text-decoration: none;
-            margin-right: 5px;
-            font-size: 14px;
+            padding: 4px 8px;
+            font-size: 20px;
+            vertical-align: middle;
+            margin-right: 4px;
         }
-        .btn-edit { background: #27ae60; }
-        .btn-delete { background: #c0392b; }
-        .btn-create { background: #2980b9; margin-bottom: 18px; display: inline-block; }
+        .icon-edit { color: #27ae60; }
+        .icon-delete { color: #c0392b; }
+        .btn-create { background: #2980b9; margin-bottom: 18px; display: inline-block; color: #fff; padding: 8px 18px; border-radius: 4px; text-decoration: none; }
+        .btn-create:hover { background: #1abc9c; }
     </style>
 </head>
 <body>
@@ -71,13 +76,17 @@ foreach ($prestamos as $prestamo) {
                     <?php foreach ($devueltos as $prestamo): ?>
                         <tr>
                             <td><?= htmlspecialchars($prestamo['id']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['codigo_usuario']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['codigo_ejemplar']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['fecha_prestamo']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['fecha_devolucion']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['Usuario_Codigo']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['Ejemplar_Codigo']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['FechaPres']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['FechaDev']) ?></td>
                             <td>
-                                <a href="Edit.php?id=<?= urlencode($prestamo['id']) ?>" class="btn btn-edit">Editar</a>
-                                <a href="Delete.php?id=<?= urlencode($prestamo['id']) ?>" class="btn btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">Eliminar</a>
+                                <a href="Create.php?id=<?= urlencode($prestamo['id']) ?>" class="icon-btn" title="Editar">
+                                    <span class="icon-edit">&#9998;</span>
+                                </a>
+                                <a href="Delete.php?id=<?= urlencode($prestamo['id']) ?>" class="icon-btn" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">
+                                    <span class="icon-delete">&#128465;</span>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -106,13 +115,17 @@ foreach ($prestamos as $prestamo) {
                     <?php foreach ($activos as $prestamo): ?>
                         <tr>
                             <td><?= htmlspecialchars($prestamo['id']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['codigo_usuario']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['codigo_ejemplar']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['fecha_prestamo']) ?></td>
-                            <td><?= htmlspecialchars($prestamo['fecha_devolucion']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['Usuario_Codigo']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['Ejemplar_Codigo']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['FechaPres']) ?></td>
+                            <td><?= htmlspecialchars($prestamo['FechaDev']) ?></td>
                             <td>
-                                <a href="Edit.php?id=<?= urlencode($prestamo['id']) ?>" class="btn btn-edit">Editar</a>
-                                <a href="Delete.php?id=<?= urlencode($prestamo['id']) ?>" class="btn btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">Eliminar</a>
+                                <a href="Create.php?id=<?= urlencode($prestamo['id']) ?>" class="icon-btn" title="Editar">
+                                    <span class="icon-edit">&#9998;</span>
+                                </a>
+                                <a href="Delete.php?id=<?= urlencode($prestamo['id']) ?>" class="icon-btn" title="Eliminar" onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">
+                                    <span class="icon-delete">&#128465;</span>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

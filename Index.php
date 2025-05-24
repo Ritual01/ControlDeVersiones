@@ -55,7 +55,7 @@
 <body>
     <div class="container">
         <h1>Biblioteca</h1>
-        <a href="View/Prestamo/List.php`" class="btn btn-main">Realizar Préstamos</a>
+        <a href="View/Prestamo/List.php" class="btn btn-main">Realizar Préstamos</a>
         <a href="View/Autor/List.php" class="btn">Autor</a>
         <a href="View/Libro/List.php" class="btn">Libro</a>
         <a href="View/Ejemplar/List.php" class="btn">Ejemplar</a>
