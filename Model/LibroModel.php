@@ -34,4 +34,12 @@ class LibroModel {
         $sql = "DELETE FROM LIBRO WHERE Codigo='$codigo'";
         return $this->conn->query($sql);
     }
+
+    public function getAutores($libro_codigo) {
+        $sql = "SELECT a.Codigo, a.Nombre
+                FROM AUTOR_LIBRO al
+                JOIN AUTOR a ON al.Autor_Codigo = a.Codigo
+                WHERE al.Libro_Codigo = '$libro_codigo'";
+        return $this->conn->query($sql);
+    }
 }

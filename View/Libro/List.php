@@ -1,5 +1,4 @@
 <?php
-<?php
 require_once __DIR__ . '/../../Model/LibroModel.php';
 $conn = new mysqli("localhost", "root", "", "libreria");
 $model = new LibroModel($conn);
@@ -27,6 +26,7 @@ $resultado = $model->getAll();
             <th>ISBN</th>
             <th>Editorial</th>
             <th>Páginas</th>
+            <th>Autores</th>
             <th>Acciones</th>
         </tr>
         <?php while ($fila = $resultado->fetch_assoc()) { ?>
@@ -36,6 +36,16 @@ $resultado = $model->getAll();
             <td><?php echo $fila['ISBN']; ?></td>
             <td><?php echo $fila['Editorial']; ?></td>
             <td><?php echo $fila['Paginas']; ?></td>
+            <td>
+                <?php
+                $autores = $model->getAutores($fila['Codigo']);
+                $links = [];
+                while ($autor = $autores->fetch_assoc()) {
+                    $links[] = '<a href="../Autor/Create.php?editar=' . $autor['Codigo'] . '">' . htmlspecialchars($autor['Nombre']) . '</a>';
+                }
+                echo implode(', ', $links);
+                ?>
+            </td>
             <td>
                 <a href="Create.php?editar=<?php echo $fila['Codigo']; ?>">Editar</a>
                 <a href="../../Controller/LibroController.php?eliminar=<?php echo $fila['Codigo']; ?>" onclick="return confirm('¿Eliminar este libro?')">Eliminar</a>
